@@ -21,11 +21,11 @@ app = FastAPI()
 
 
 @app.get("/", response_model=List[Record])
-async def get_records() -> List[Record]:
+def get_records() -> List[Record]:
     api_key = os.environ.get("API_KEY")
     lat = os.environ.get("LAT")
     lng = os.environ.get("LNG")
-    records: List[Record] = await get_nearby_notable(api_key, lat, lng, dist=50, detail='full')
+    records: List[Record] = get_nearby_notable(api_key, lat, lng, dist=50, detail='full')
     return list(map(lambda x: Record.parse_obj(x), records))
 
 
