@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from pydantic import BaseModel
 
 from utils.time import as_bkk_tz, is_between_yesterday
@@ -33,7 +33,11 @@ class Record(BaseModel):
 
 
 def parse_obs_dt(record: Record):
-    return as_bkk_tz(datetime.fromisoformat(record['obsDt']))
+    print(record.obsDt)
+    try:
+        return as_bkk_tz(datetime.strptime(record.obsDt, "%Y-%m-%d %H:%M"))
+    except:
+        return as_bkk_tz(datetime.strptime(record.obsDt, "%Y-%m-%d"))
 
 
 def is_report_yesterday(record):
