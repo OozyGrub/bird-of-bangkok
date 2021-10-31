@@ -1,5 +1,7 @@
-from typing import Optional
+import datetime
 from pydantic import BaseModel
+
+from utils.time import as_bkk_tz, is_between_yesterday
 
 
 class Record(BaseModel):
@@ -28,3 +30,11 @@ class Record(BaseModel):
     firstName: str
     lastName: str
     hasRichMedia: bool
+
+
+def parse_obs_dt(record: Record):
+    return as_bkk_tz(datetime.fromisoformat(record['obsDt']))
+
+
+def is_report_yesterday(record):
+    return is_between_yesterday(parse_obs_dt(record))

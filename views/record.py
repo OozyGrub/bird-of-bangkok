@@ -3,7 +3,6 @@ from models.record import Record
 
 
 def buildRecordFlex(record: Record) -> FlexSendMessage:
-    print("https://ebird.org/checklist/{}".format(record.subId))
     flex = FlexSendMessage(
         alt_text=record.comName,
         contents={
