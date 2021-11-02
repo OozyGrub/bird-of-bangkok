@@ -11,7 +11,7 @@ from linebot.models import (FlexSendMessage, MessageEvent, TextMessage,
 from linebot.webhook import WebhookHandler
 from linebotx import LineBotApiAsync, WebhookHandlerAsync
 
-from models.record import Record, is_report_yesterday
+from models.record import Record, is_report_previous_hour, is_report_yesterday
 from views.record import buildRecordFlex
 
 load_dotenv()
@@ -71,9 +71,14 @@ def _get_yesterday_records() -> List[Record]:
     return list(filter(is_report_yesterday, records))
 
 
+def _get_previous_hrs_records() -> List[Record]:
+    records = _get_records()
+    return list(filter(is_report_previous_hour, records))
+
+
 @app.post('/broadcast')
 def broadcast():
-    records = _get_yesterday_records()
+    records = _get_previous_hrs_records()
     for record in records:
         line_bot_api.broadcast(buildRecordFlex(record))
     return 'success'

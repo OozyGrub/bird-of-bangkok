@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 
-from utils.time import as_bkk_tz, is_between_yesterday
+from utils.time import as_bkk_tz, is_between_previous_hrs, is_between_yesterday
 
 
 class Record(BaseModel):
@@ -41,3 +41,7 @@ def parse_obs_dt(record: Record):
 
 def is_report_yesterday(record):
     return is_between_yesterday(parse_obs_dt(record))
+
+
+def is_report_previous_hour(record):
+    return is_between_previous_hrs(parse_obs_dt(record))
