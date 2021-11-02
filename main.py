@@ -48,13 +48,22 @@ def handle_message(event: MessageEvent):
     )
 
 
+def _uniq_records(records: List[Record]) -> List[Record]:
+    return list({record['obsId']: record for record in records}.values())
+
+
+def _plain_to_class(record: Record) -> Record:
+    return Record.parse_obj(record)
+
+
 def _get_records() -> List[Record]:
     api_key = os.environ.get("API_KEY")
     lat = os.environ.get("LAT")
     lng = os.environ.get("LNG")
     records: List[Record] = get_nearby_notable(
         api_key, lat, lng, dist=50, detail='full')
-    return list(map(lambda x: Record.parse_obj(x), records))
+    records = _uniq_records(records)
+    return list(map(_plain_to_class, records))
 
 
 def _get_yesterday_records() -> List[Record]:
