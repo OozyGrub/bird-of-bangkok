@@ -33,7 +33,6 @@ class Record(BaseModel):
 
 
 def parse_obs_dt(record: Record):
-    print(record.obsDt)
     try:
         return as_bkk_tz(datetime.strptime(record.obsDt, "%Y-%m-%d %H:%M"))
     except:

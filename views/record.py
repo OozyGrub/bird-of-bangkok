@@ -127,5 +127,4 @@ def buildRecordFlex(record: Record) -> FlexSendMessage:
             },
         }
     )
-    print(flex)
     return flex
